@@ -1,10 +1,15 @@
-import type { ReadonlyBoardMatrix } from "../../core/Board";
 import type { IMove } from "../../moves/IMove";
+import type { IChessBoard } from "../../structures/ChessBoard";
+import {
+	Position,
+	type IPosition,
+	type IPositionInstance,
+} from "../../structures/Position";
 import { PIECE_COLOR, type PieceColor, type PieceVariant } from "../enums";
 import type { IPiece } from "./IPiece";
 
 export abstract class Piece implements IPiece {
-	position: IPosition;
+	position: IPositionInstance;
 	readonly color: PieceColor;
 
 	abstract readonly variant: PieceVariant;
@@ -12,7 +17,7 @@ export abstract class Piece implements IPiece {
 
 	constructor(color: PieceColor, position: IPosition) {
 		this.color = color;
-		this.position = position;
+		this.position = new Position(position.x, position.y);
 	}
 
 	get FENChar(): string {
@@ -21,7 +26,7 @@ export abstract class Piece implements IPiece {
 			: this.variant.toLowerCase();
 	}
 
-	getPossibleMoves(board: ReadonlyBoardMatrix): IPosition[] {
+	getPossibleMoves(board: IChessBoard): IPosition[] {
 		return this._moves.flatMap((move) => move.getMoves(board, this));
 	}
 

@@ -1,3 +1,5 @@
+import type { IPosition } from "../structures/Position";
+
 type GameListeners = {
 	move: ((from: IPosition, to: IPosition) => void)[];
 	tileClick: ((position: IPosition) => void)[];

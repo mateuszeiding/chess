@@ -1,4 +1,5 @@
 import type { IPiece } from "../pieces/base/IPiece";
+import type { IPosition } from "../structures/Position";
 import { Painter } from "../ui/Painter";
 import { Board, type IBoard } from "./Board";
 import { GameEventEmitter, type IGameEventEmitter } from "./GameEventEmtter";
@@ -28,7 +29,7 @@ export class GameManager {
 	}
 
 	private _handleTileClick(position: IPosition) {
-		const piece = this._board.chessboard[position.y][position.x];
+		const piece = this._board.chessboard.at(position);
 		if (this._selectedPiece === piece) {
 			return;
 		}
@@ -40,8 +41,8 @@ export class GameManager {
 			this._selectedPiece = piece;
 			this._painter.select(position);
 			this._possibleMoves = this._board.getMovesFor(position);
-			console.log("possible moves", this._possibleMoves);
 			this._painter.highlightMoves(this._possibleMoves);
+
 			return;
 		}
 

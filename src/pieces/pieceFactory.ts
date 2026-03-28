@@ -1,3 +1,4 @@
+import type { IPosition } from "../structures/Position";
 import type { IPiece } from "./base/IPiece";
 import { PIECE_VARIANT, type PieceColor, type PieceVariant } from "./enums";
 import { Bishop } from "./types/Bishop";

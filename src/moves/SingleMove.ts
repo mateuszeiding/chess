@@ -1,25 +1,23 @@
-import type { ReadonlyBoardMatrix } from "../core/Board";
 import type { IPiece } from "../pieces/base/IPiece";
-import { PIECE_COLOR } from "../pieces/enums";
-import { isValidPosition } from "../utils/position";
+import type { IChessBoard } from "../structures/ChessBoard";
+import type { IPosition, IPositionInstance } from "../structures/Position";
 import { MoveBase } from "./IMove";
 
 export class SingleMove extends MoveBase {
-	getMoves(board: ReadonlyBoardMatrix, piece: IPiece): IPosition[] {
-		const directionAdjust = piece.color === PIECE_COLOR.White ? -1 : 1;
+	getMoves(board: IChessBoard, piece: IPiece): IPosition[] {
 		const possibleMoves: IPosition[] = [];
 
 		for (const dir of this.directions) {
-			const currPos: IPosition = {
-				x: piece.position.x + dir.x,
-				y: piece.position.y + dir.y * directionAdjust,
-			};
+			const currPos: IPositionInstance = piece.position.getOffset(
+				dir,
+				piece.color,
+			);
 
-			if (!isValidPosition(currPos)) {
+			if (!currPos.isValid(currPos)) {
 				continue;
 			}
 
-			const to = board[currPos.y]?.[currPos.x] ?? null;
+			const to = board.at(currPos);
 
 			if (this._evaluateConditions(to)) {
 				possibleMoves.push(currPos);

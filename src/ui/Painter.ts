@@ -1,5 +1,6 @@
-import type { ReadonlyBoardMatrix } from "../core/Board";
 import type { IGameEventEmitter } from "../core/GameEventEmtter";
+import type { IChessBoard } from "../structures/ChessBoard";
+import type { IPosition } from "../structures/Position";
 
 export interface IPainter {
 	paint(): void;
@@ -22,17 +23,17 @@ export class Painter {
 		this._app = app;
 	}
 
-	paint(matrix: ReadonlyBoardMatrix) {
+	paint(matrix: IChessBoard) {
 		this._app.innerHTML = "";
-		for (const [y, row] of matrix.entries()) {
+		for (const [y, row] of matrix.Entries) {
 			for (const [x, cell] of row.entries()) {
 				const el = document.createElement("div");
 				el.dataset.position = `${y},${x}`;
 
 				el.onclick = () => {
 					this._eventEmitter.emitTileClick({
-						y,
 						x,
+						y,
 					});
 				};
 

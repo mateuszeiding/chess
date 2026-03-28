@@ -1,9 +1,10 @@
 import type { ICondition } from "../conditions/ICondition";
-import type { ReadonlyBoardMatrix } from "../core/Board";
 import type { IPiece } from "../pieces/base/IPiece";
+import type { IChessBoard } from "../structures/ChessBoard";
+import type { IPosition } from "../structures/Position";
 
 export interface IMove {
-	getMoves(board: ReadonlyBoardMatrix, piece: IPiece): IPosition[];
+	getMoves(board: IChessBoard, piece: IPiece): IPosition[];
 }
 
 export abstract class MoveBase implements IMove {
@@ -15,7 +16,7 @@ export abstract class MoveBase implements IMove {
 		this.conditions = conditions;
 	}
 
-	abstract getMoves(board: ReadonlyBoardMatrix, piece: IPiece): IPosition[];
+	abstract getMoves(board: IChessBoard, piece: IPiece): IPosition[];
 
 	protected _evaluateConditions(to: IPiece | null): boolean {
 		return this.conditions.some((condition) => condition.check(to));

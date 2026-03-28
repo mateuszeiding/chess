@@ -1,3 +1,5 @@
+import type { IPosition } from "../structures/Position";
+
 export const ALL_DIRECTIONS: IPosition[] = [
 	{ x: 0, y: 1 }, // up
 	{ x: 0, y: -1 }, // down

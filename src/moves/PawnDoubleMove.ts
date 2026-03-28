@@ -1,28 +1,21 @@
-import type { ReadonlyBoardMatrix } from "../core/Board";
 import type { IPiece } from "../pieces/base/IPiece";
-import { PIECE_COLOR } from "../pieces/enums";
+import type { IChessBoard } from "../structures/ChessBoard";
+import type { IPosition } from "../structures/Position";
 import { MoveBase } from "./IMove";
 
 export class PawnDoubleMove extends MoveBase {
-	getMoves(board: ReadonlyBoardMatrix, piece: IPiece): IPosition[] {
-		const directionAdjust = piece.color === PIECE_COLOR.White ? -1 : 1;
+	getMoves(board: IChessBoard, piece: IPiece): IPosition[] {
 		const dir = this.directions[0];
-		const middle =
-			board[piece.position.y + dir.y * directionAdjust]?.[
-				piece.position.x + dir.x
-			] ?? null;
+		const middlePos = piece.position.getOffset(dir, piece.color);
+		const middle = board.at(middlePos);
 
 		if (middle !== null) return [];
 
-		const to = board[dir.y]?.[piece.position.x + dir.x] ?? null;
+		const targetPos = middlePos.getOffset(dir, piece.color);
+		const to = board.at(targetPos);
 
 		if (this._evaluateConditions(to)) {
-			return [
-				{
-					x: piece.position.x + 2 * dir.x,
-					y: piece.position.y + 2 * (dir.y * directionAdjust),
-				},
-			];
+			return [targetPos];
 		}
 
 		return [];
