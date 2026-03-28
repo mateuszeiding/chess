@@ -26,6 +26,11 @@
 			background-color: lightgreen;
 		}
 
+		&.dark {
+			background-color: #333;
+			color: #f8f8ff;
+		}
+
 
 		&:nth-child(8n) {
 			border-right: var(--tile-border);

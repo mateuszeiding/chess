@@ -40,6 +40,10 @@ export class Painter {
 					el.textContent = cell.FENChar;
 				}
 
+				if ((x + y) % 2 !== 0) {
+					el.classList.add("dark");
+				}
+
 				this._app.appendChild(el);
 			}
 		}
