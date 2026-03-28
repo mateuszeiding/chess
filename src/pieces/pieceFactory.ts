@@ -1,9 +1,5 @@
-import {
-	PIECE_VARIANT,
-	type IPiece,
-	type PieceColor,
-	type PieceVariant,
-} from "./base/Piece";
+import type { IPiece } from "./base/IPiece";
+import { PIECE_VARIANT, type PieceColor, type PieceVariant } from "./enums";
 import { Bishop } from "./types/Bishop";
 import { King } from "./types/King";
 import { Knight } from "./types/Knight";

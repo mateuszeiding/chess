@@ -24,4 +24,6 @@ export abstract class Piece implements IPiece {
 	getPossibleMoves(board: ReadonlyBoardMatrix): IPosition[] {
 		return this._moves.flatMap((move) => move.getMoves(board, this));
 	}
+
+	onMove(): void {}
 }

@@ -7,4 +7,5 @@ export interface IPiece {
 	get FENChar(): string;
 	position: IPosition;
 	getPossibleMoves(board: ReadonlyBoardMatrix): IPosition[];
+	onMove(): void;
 }

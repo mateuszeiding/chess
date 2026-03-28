@@ -1,4 +1,4 @@
-import type { IPiece } from "../pieces/base/Piece";
+import type { IPiece } from "../pieces/base/IPiece";
 import { Painter } from "../ui/Painter";
 import { Board, type IBoard } from "./Board";
 import { GameEventEmitter, type IGameEventEmitter } from "./GameEventEmtter";
@@ -8,6 +8,7 @@ export class GameManager {
 	private readonly _painter: Painter;
 	private readonly _eventEmitter: IGameEventEmitter = new GameEventEmitter();
 	private _selectedPiece: IPiece | null = null;
+	private _possibleMoves: IPosition[] = [];
 
 	private constructor() {
 		this._eventEmitter = new GameEventEmitter();
@@ -38,11 +39,19 @@ export class GameManager {
 		) {
 			this._selectedPiece = piece;
 			this._painter.select(position);
+			this._possibleMoves = this._board.getMovesFor(position);
+			this._painter.highlightMoves(this._possibleMoves);
 			return;
 		}
 
-		this._eventEmitter.emitMove(this._selectedPiece.position, position);
-		this._selectedPiece = null;
+		if (
+			this._possibleMoves.some(
+				(pos) => pos.x === position.x && pos.y === position.y,
+			)
+		) {
+			this._eventEmitter.emitMove(this._selectedPiece.position, position);
+			this._selectedPiece = null;
+		}
 	}
 
 	private _bindEvents() {

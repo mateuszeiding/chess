@@ -22,6 +22,10 @@
 			background-color: lightblue;
 		}
 
+		&.highlight {
+			background-color: lightgreen;
+		}
+
 
 		&:nth-child(8n) {
 			border-right: var(--tile-border);

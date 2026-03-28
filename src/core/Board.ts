@@ -8,7 +8,7 @@ export type ReadonlyBoardMatrix = ReadonlyArray<ReadonlyArray<IPiece | null>>;
 export interface IBoard {
 	chessboard: BoardMatrix;
 	move(from: IPosition, to: IPosition): void;
-	getMovesFor(position: IPosition): void;
+	getMovesFor(position: IPosition): IPosition[];
 }
 
 const FEN_TO_PIECE_VARIANT_MAP: Record<string, PieceVariant> = {
@@ -33,12 +33,13 @@ export class Board implements IBoard {
 
 	getMovesFor(position: IPosition) {
 		const piece = this._getPieceAt(position);
-		return piece.MovePatterns;
+		return piece.getPossibleMoves(this.chessboard);
 	}
 
 	move(from: IPosition, to: IPosition) {
 		const piece = this._getPieceAt(from);
 		piece.position = to;
+		piece.onMove();
 		this.chessboard[to.y][to.x] = piece;
 		this.chessboard[from.y][from.x] = null;
 	}

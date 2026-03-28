@@ -9,6 +9,7 @@ export class Painter {
 	private readonly _app: HTMLDivElement;
 	private readonly _eventEmitter: IGameEventEmitter;
 	private _selectedPosition: IPosition | null = null;
+	private _highlightedPositions: IPosition[] = [];
 
 	constructor(eventEmitter: IGameEventEmitter) {
 		this._eventEmitter = eventEmitter;
@@ -53,6 +54,19 @@ export class Painter {
 		const tile = this._getOnPosition(position);
 		tile.classList.add("selected");
 		this._selectedPosition = position;
+	}
+
+	highlightMoves(positions: IPosition[]) {
+		for (const pos of this._highlightedPositions) {
+			const tile = this._getOnPosition(pos);
+			tile.classList.remove("highlight");
+		}
+
+		this._highlightedPositions = positions;
+		for (const pos of positions) {
+			const tile = this._getOnPosition(pos);
+			tile.classList.add("highlight");
+		}
 	}
 
 	private _getOnPosition(position: IPosition): HTMLDivElement {

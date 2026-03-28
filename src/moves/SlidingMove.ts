@@ -1,8 +1,7 @@
 import type { ReadonlyBoardMatrix } from "../core/Board";
 import type { IPiece } from "../pieces/base/IPiece";
+import { MAX_BOARD_SIZE } from "../utils/constants";
 import { MoveBase } from "./IMove";
-
-const BOARD_SIZE = 8;
 
 export class SlidingMove extends MoveBase {
 	getMoves(board: ReadonlyBoardMatrix, piece: IPiece): IPosition[] {
@@ -13,9 +12,9 @@ export class SlidingMove extends MoveBase {
 
 			while (
 				currPos.x >= 0 &&
-				currPos.x < BOARD_SIZE &&
+				currPos.x <= MAX_BOARD_SIZE &&
 				currPos.y >= 0 &&
-				currPos.y < BOARD_SIZE
+				currPos.y <= MAX_BOARD_SIZE
 			) {
 				const to = board[currPos.y]?.[currPos.x] ?? null;
 
