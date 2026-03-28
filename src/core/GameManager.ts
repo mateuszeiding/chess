@@ -40,6 +40,7 @@ export class GameManager {
 			this._selectedPiece = piece;
 			this._painter.select(position);
 			this._possibleMoves = this._board.getMovesFor(position);
+			console.log("possible moves", this._possibleMoves);
 			this._painter.highlightMoves(this._possibleMoves);
 			return;
 		}

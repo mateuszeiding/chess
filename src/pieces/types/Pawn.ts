@@ -20,7 +20,10 @@ export class Pawn extends Piece {
 			],
 			[new EnemyCondition(this.color)],
 		),
-		new PawnDoubleMove(FORWARD_DIRECTIONS, [new FirstMoveCondition(this)]),
+		new PawnDoubleMove(FORWARD_DIRECTIONS, [
+			new FirstMoveCondition(this),
+			new EmptyPlaceCondition(),
+		]),
 	];
 
 	override onMove(): void {

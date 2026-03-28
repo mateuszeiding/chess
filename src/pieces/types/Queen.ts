@@ -1,3 +1,5 @@
+import { EmptyPlaceCondition } from "../../conditions/EmptyPlaceCondition";
+import { EnemyCondition } from "../../conditions/EnemyCondition";
 import type { IMove } from "../../moves/IMove";
 import { ALL_DIRECTIONS } from "../../moves/movePatterns";
 import { SlidingMove } from "../../moves/SlidingMove";
@@ -6,5 +8,10 @@ import { PIECE_VARIANT, type PieceVariant } from "../enums";
 
 export class Queen extends Piece {
 	variant: PieceVariant = PIECE_VARIANT.Queen;
-	protected _moves: IMove[] = [new SlidingMove(ALL_DIRECTIONS)];
+	protected _moves: IMove[] = [
+		new SlidingMove(ALL_DIRECTIONS, [
+			new EmptyPlaceCondition(),
+			new EnemyCondition(this.color),
+		]),
+	];
 }

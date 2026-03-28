@@ -16,4 +16,8 @@ export abstract class MoveBase implements IMove {
 	}
 
 	abstract getMoves(board: ReadonlyBoardMatrix, piece: IPiece): IPosition[];
+
+	protected _evaluateConditions(to: IPiece | null): boolean {
+		return this.conditions.some((condition) => condition.check(to));
+	}
 }

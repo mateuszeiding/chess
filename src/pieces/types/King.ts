@@ -1,3 +1,5 @@
+import { EmptyPlaceCondition } from "../../conditions/EmptyPlaceCondition";
+import { EnemyCondition } from "../../conditions/EnemyCondition";
 import type { IMove } from "../../moves/IMove";
 import { ALL_DIRECTIONS } from "../../moves/movePatterns";
 import { SingleMove } from "../../moves/SingleMove";
@@ -6,5 +8,10 @@ import { PIECE_VARIANT, type PieceVariant } from "../enums";
 
 export class King extends Piece {
 	variant: PieceVariant = PIECE_VARIANT.King;
-	protected _moves: IMove[] = [new SingleMove(ALL_DIRECTIONS)];
+	protected _moves: IMove[] = [
+		new SingleMove(ALL_DIRECTIONS, [
+			new EmptyPlaceCondition(),
+			new EnemyCondition(this.color),
+		]),
+	];
 }

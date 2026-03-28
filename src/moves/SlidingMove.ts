@@ -8,7 +8,10 @@ export class SlidingMove extends MoveBase {
 		const possibleMoves: IPosition[] = [];
 
 		for (const dir of this.directions) {
-			const currPos: IPosition = { x: piece.position.x, y: piece.position.y };
+			const currPos: IPosition = {
+				x: piece.position.x + dir.x,
+				y: piece.position.y + dir.y,
+			};
 
 			while (
 				currPos.x >= 0 &&
@@ -18,15 +21,12 @@ export class SlidingMove extends MoveBase {
 			) {
 				const to = board[currPos.y]?.[currPos.x] ?? null;
 
-				if (to?.color === piece.color) break;
-
-				if (to?.color !== piece.color) {
-					possibleMoves.push({ x: currPos.x, y: currPos.y });
-					break;
+				if (this._evaluateConditions(to)) {
+					possibleMoves.push({ ...currPos });
 				}
 
-				if (this.conditions.every((condition) => condition.check(to))) {
-					possibleMoves.push({ x: currPos.x, y: currPos.y });
+				if (to !== null) {
+					break;
 				}
 
 				currPos.x += dir.x;

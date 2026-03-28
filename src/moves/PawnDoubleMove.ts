@@ -14,7 +14,9 @@ export class PawnDoubleMove extends MoveBase {
 
 		if (middle !== null) return [];
 
-		if (this.conditions.every((condition) => condition.check(piece))) {
+		const to = board[dir.y]?.[piece.position.x + dir.x] ?? null;
+
+		if (this._evaluateConditions(to)) {
 			return [
 				{
 					x: piece.position.x + 2 * dir.x,
