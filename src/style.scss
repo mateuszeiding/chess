@@ -1,0 +1,38 @@
+#app {
+	--tile-size: 6rem;
+	--tile-border: 1px solid black;
+	font-family: 'Fira Code', monospace;
+	margin: auto;
+	display: grid;
+	grid-template-columns: repeat(8, var(--tile-size));
+	grid-template-rows: repeat(8, var(--tile-size));
+	font-size: 2rem;
+	font-weight: 500;
+
+	& > div {
+		width: var(--tile-size);
+		height: var(--tile-size);
+		border-top: var(--tile-border);
+		border-left: var(--tile-border);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&.selected {
+			background-color: lightblue;
+		}
+
+
+		&:nth-child(8n) {
+			border-right: var(--tile-border);
+		}
+
+		&:nth-child(n+57) {
+			border-bottom: var(--tile-border);
+		}
+	}
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
