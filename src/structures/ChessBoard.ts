@@ -1,5 +1,5 @@
 import type { IPiece } from "../pieces/base/IPiece";
-import type { IPosition } from "./Position";
+import { Position, type IPosition } from "./Position";
 
 export interface IChessBoard {
 	at(position: IPosition): IPiece | null;
@@ -17,6 +17,10 @@ export class ChessBoard {
 	}
 
 	at(position: IPosition): IPiece | null {
+		if (!Position.isValid(position)) {
+			return null;
+		}
+
 		return this._board[position.y][position.x];
 	}
 

@@ -29,6 +29,11 @@ export const FORWARD_DIRECTIONS: IPosition[] = [
 	{ x: 0, y: 1 }, // up
 ];
 
+export const FORWARD_DIAGONAL_DIRECTIONS: IPosition[] = [
+	{ x: 1, y: 1 }, // up-right
+	{ x: -1, y: 1 }, // up-left
+];
+
 export const KNIGHT_DIRECTIONS: IPosition[] = [
 	{ x: 1, y: 2 },
 	{ x: 1, y: -2 },

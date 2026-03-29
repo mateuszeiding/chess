@@ -27,7 +27,9 @@ export abstract class Piece implements IPiece {
 	}
 
 	getPossibleMoves(board: IChessBoard): IPosition[] {
-		return this._moves.flatMap((move) => move.getMoves(board, this));
+		return this._moves
+			.flatMap((move) => move.getMoves(board, this))
+			.filter((pos) => Position.isValid(pos));
 	}
 
 	onMove(): void {}

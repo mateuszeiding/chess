@@ -1,6 +1,10 @@
 import type { IPiece } from "../pieces/base/IPiece";
 import type { IChessBoard } from "../structures/ChessBoard";
-import type { IPosition, IPositionInstance } from "../structures/Position";
+import {
+	Position,
+	type IPosition,
+	type IPositionInstance,
+} from "../structures/Position";
 import { MoveBase } from "./IMove";
 
 export class SingleMove extends MoveBase {
@@ -13,7 +17,7 @@ export class SingleMove extends MoveBase {
 				piece.color,
 			);
 
-			if (!currPos.isValid(currPos)) {
+			if (!Position.isValid(currPos)) {
 				continue;
 			}
 

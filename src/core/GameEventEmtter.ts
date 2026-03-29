@@ -7,8 +7,8 @@ type GameListeners = {
 
 export interface IGameEventEmitter {
 	onMove(listener: (from: IPosition, to: IPosition) => void): void;
-	onTileClick(listener: (position: IPosition) => void): void;
 	emitMove(from: IPosition, to: IPosition): void;
+	onTileClick(listener: (position: IPosition) => void): void;
 	emitTileClick(position: IPosition): void;
 }
 
@@ -22,14 +22,14 @@ export class GameEventEmitter implements IGameEventEmitter {
 		this.listeners.move.push(listener);
 	}
 
-	onTileClick(listener: (position: IPosition) => void): void {
-		this.listeners.tileClick.push(listener);
-	}
-
 	emitMove(from: IPosition, to: IPosition): void {
 		this.listeners.move.forEach((listener) => {
 			listener(from, to);
 		});
+	}
+
+	onTileClick(listener: (position: IPosition) => void): void {
+		this.listeners.tileClick.push(listener);
 	}
 
 	emitTileClick(position: IPosition): void {

@@ -50,6 +50,7 @@ export class Board implements IBoard {
 		return piece;
 	}
 
+	// TODO: Create FEN adapter
 	private _initializeBoard() {
 		const rows = this.fen.split("/");
 		for (let i = 0; i < rows.length; i++) {

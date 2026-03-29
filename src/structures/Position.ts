@@ -9,7 +9,6 @@ export interface IPosition {
 export interface IPositionInstance extends IPosition {
 	getOffset(pos: IPosition, adjustFor?: PieceColor): IPositionInstance;
 	set(pos: IPosition): void;
-	isValid(pos: IPosition): boolean;
 }
 
 export class Position implements IPositionInstance {
@@ -34,7 +33,7 @@ export class Position implements IPositionInstance {
 		this.y = pos.y;
 	}
 
-	isValid(pos: IPosition): boolean {
+	static isValid(pos: IPosition): boolean {
 		return (
 			pos.x >= 0 &&
 			pos.x <= MAX_BOARD_SIZE &&
