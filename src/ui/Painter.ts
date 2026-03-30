@@ -21,6 +21,12 @@ export class Painter {
 		}
 
 		this._app = app;
+
+		const turnIndicator = document.createElement("div");
+		turnIndicator.id = "turn-indicator";
+		turnIndicator.style.marginTop = "2rem";
+		turnIndicator.style.fontSize = "2rem";
+		document.body.appendChild(turnIndicator);
 	}
 
 	paint(matrix: IChessBoard) {
@@ -47,6 +53,13 @@ export class Painter {
 
 				this._app.appendChild(el);
 			}
+		}
+	}
+
+	displayTurn(playerColor: string) {
+		const turnEl = document.getElementById("turn-indicator");
+		if (turnEl) {
+			turnEl.textContent = `Current turn: ${playerColor}`;
 		}
 	}
 

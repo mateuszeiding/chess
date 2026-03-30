@@ -3,11 +3,13 @@ import type { IPosition } from "../structures/Position";
 import { Painter } from "../ui/Painter";
 import { Board, type IBoard } from "./Board";
 import { GameEventEmitter, type IGameEventEmitter } from "./GameEventEmtter";
+import { GameState, type IGameState } from "./GameState";
 
 export class GameManager {
 	private readonly _board: IBoard;
 	private readonly _painter: Painter;
 	private readonly _eventEmitter: IGameEventEmitter = new GameEventEmitter();
+	private readonly _gameState: IGameState;
 	private _selectedPiece: IPiece | null = null;
 	private _possibleMoves: IPosition[] = [];
 
@@ -16,6 +18,7 @@ export class GameManager {
 
 		this._board = new Board();
 		this._painter = new Painter(this._eventEmitter);
+		this._gameState = new GameState(this._board);
 	}
 
 	static newGame(): GameManager {
@@ -24,6 +27,7 @@ export class GameManager {
 		gm._bindEvents();
 
 		gm._painter.paint(gm._board.chessboard);
+		gm._painter.displayTurn(gm._board.currentPlayer.color);
 
 		return gm;
 	}
@@ -34,10 +38,7 @@ export class GameManager {
 			return;
 		}
 
-		if (
-			this._selectedPiece === null ||
-			piece?.color === this._selectedPiece.color
-		) {
+		if (piece?.color === this._board.currentPlayer.color) {
 			this._selectedPiece = piece;
 			this._painter.select(position);
 			this._possibleMoves = this._board.getMovesFor(position);
@@ -46,22 +47,25 @@ export class GameManager {
 			return;
 		}
 
+		if (!this._selectedPiece) {
+			return;
+		}
+
 		if (
 			this._possibleMoves.some(
 				(pos) => pos.x === position.x && pos.y === position.y,
 			)
 		) {
-			this._eventEmitter.emitMove(this._selectedPiece.position, position);
+			this._board.move(this._selectedPiece.position, position);
+			this._painter.paint(this._board.chessboard);
 			this._selectedPiece = null;
+			this._possibleMoves = [];
+			this._gameState.endTurn();
+			this._painter.displayTurn(this._board.currentPlayer.color);
 		}
 	}
 
 	private _bindEvents() {
-		this._eventEmitter.onMove((from, to) => {
-			this._board.move(from, to);
-			this._painter.paint(this._board.chessboard);
-		});
-
 		this._eventEmitter.onTileClick((position) => {
 			this._handleTileClick(position);
 		});

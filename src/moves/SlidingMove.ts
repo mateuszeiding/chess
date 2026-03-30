@@ -1,7 +1,6 @@
 import type { IPiece } from "../pieces/base/IPiece";
 import type { IChessBoard } from "../structures/ChessBoard";
-import type { IPosition } from "../structures/Position";
-import { MAX_BOARD_SIZE } from "../utils/constants";
+import { Position, type IPosition } from "../structures/Position";
 import { MoveBase } from "./IMove";
 
 export class SlidingMove extends MoveBase {
@@ -11,12 +10,7 @@ export class SlidingMove extends MoveBase {
 		for (const dir of this.directions) {
 			const currPos: IPosition = piece.position.getOffset(dir);
 
-			while (
-				currPos.x >= 0 &&
-				currPos.x <= MAX_BOARD_SIZE &&
-				currPos.y >= 0 &&
-				currPos.y <= MAX_BOARD_SIZE
-			) {
+			while (Position.isValid(currPos)) {
 				const to = board.at(currPos);
 
 				if (this._evaluateConditions(to)) {
