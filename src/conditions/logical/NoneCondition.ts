@@ -1,5 +1,5 @@
-import type { IMove } from "../moves/IMove";
-import type { ICondition } from "./ICondition";
+import type { IMove } from "../../moves/IMove";
+import type { ICondition } from "./../ICondition";
 
 export class NoneCondition implements ICondition {
 	private readonly conditions: ICondition[];
