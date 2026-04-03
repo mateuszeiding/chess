@@ -1,19 +1,22 @@
-import type { IGameEventEmitter } from "../core/GameEventEmtter";
-import type { IChessBoard } from "../structures/ChessBoard";
+import type { IBoard } from "../core/Board";
+import type { IMove } from "../moves/IMove";
 import type { IPosition } from "../structures/Position";
 
 export interface IPainter {
 	paint(): void;
+	displayTurn(playerColor: string): void;
+	select(position: IPosition): void;
+	highlightMoves(positions: IMove[]): void;
 }
 
-export class Painter {
+export class Painter implements IPainter {
 	private readonly _app: HTMLDivElement;
-	private readonly _eventEmitter: IGameEventEmitter;
 	private _selectedPosition: IPosition | null = null;
-	private _highlightedPositions: IPosition[] = [];
+	private _highlightedMoves: IMove[] = [];
+	private readonly _board: IBoard;
 
-	constructor(eventEmitter: IGameEventEmitter) {
-		this._eventEmitter = eventEmitter;
+	constructor(board: IBoard) {
+		this._board = board;
 		const app = document.querySelector<HTMLDivElement>("#app");
 
 		if (!app) {
@@ -29,23 +32,20 @@ export class Painter {
 		document.body.appendChild(turnIndicator);
 	}
 
-	paint(matrix: IChessBoard) {
+	paint() {
 		this._app.innerHTML = "";
-		for (const [y, row] of matrix.Entries) {
+		for (const [y, row] of this._board.chessboard.Entries) {
 			for (const [x, cell] of row.entries()) {
 				const el = document.createElement("div");
 				el.dataset.position = `${y},${x}`;
+				el.textContent = cell.FENChar;
 
 				el.onclick = () => {
-					this._eventEmitter.emitTileClick({
+					this._board.onTileClick({
 						x,
 						y,
 					});
 				};
-
-				if (cell) {
-					el.textContent = cell.FENChar;
-				}
 
 				if ((x + y) % 2 !== 0) {
 					el.classList.add("dark");
@@ -74,15 +74,15 @@ export class Painter {
 		this._selectedPosition = position;
 	}
 
-	highlightMoves(positions: IPosition[]) {
-		for (const pos of this._highlightedPositions) {
-			const tile = this._getOnPosition(pos);
+	highlightMoves(positions: IMove[]) {
+		for (const move of this._highlightedMoves) {
+			const tile = this._getOnPosition(move.target.position);
 			tile.classList.remove("highlight");
 		}
 
-		this._highlightedPositions = positions;
-		for (const pos of positions) {
-			const tile = this._getOnPosition(pos);
+		this._highlightedMoves = positions;
+		for (const move of positions) {
+			const tile = this._getOnPosition(move.target.position);
 			tile.classList.add("highlight");
 		}
 	}

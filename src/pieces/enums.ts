@@ -5,6 +5,7 @@ export const PIECE_VARIANT = {
 	Queen: "q",
 	King: "k",
 	Pawn: "p",
+	None: "none",
 } as const;
 
 export type PieceVariant = (typeof PIECE_VARIANT)[keyof typeof PIECE_VARIANT];
@@ -12,6 +13,7 @@ export type PieceVariant = (typeof PIECE_VARIANT)[keyof typeof PIECE_VARIANT];
 export const PIECE_COLOR = {
 	White: "w",
 	Black: "b",
+	None: "none",
 } as const;
 
 export type PieceColor = (typeof PIECE_COLOR)[keyof typeof PIECE_COLOR];

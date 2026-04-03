@@ -25,7 +25,10 @@ export class Position implements IPositionInstance {
 		adjustFor: PieceColor = PIECE_COLOR.Black,
 	): Position {
 		const directionAdjust = adjustFor === PIECE_COLOR.White ? -1 : 1;
-		return new Position(this.x + pos.x, this.y + pos.y * directionAdjust);
+
+		const off = new Position(this.x + pos.x, this.y + pos.y * directionAdjust);
+
+		return off;
 	}
 
 	set(pos: IPosition): void {

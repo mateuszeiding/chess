@@ -1,5 +1,6 @@
+import type { IBoard } from "../../core/Board";
+import type { IMovePattern } from "../../movePatterns/IMovePattern";
 import type { IMove } from "../../moves/IMove";
-import type { IChessBoard } from "../../structures/ChessBoard";
 import {
 	Position,
 	type IPosition,
@@ -13,7 +14,7 @@ export abstract class Piece implements IPiece {
 	readonly color: PieceColor;
 
 	abstract readonly variant: PieceVariant;
-	protected abstract readonly _moves: IMove[];
+	protected abstract readonly _movePatterns: IMovePattern[];
 
 	constructor(color: PieceColor, position: IPosition) {
 		this.color = color;
@@ -26,10 +27,10 @@ export abstract class Piece implements IPiece {
 			: this.variant.toLowerCase();
 	}
 
-	getPossibleMoves(board: IChessBoard): IPosition[] {
-		return this._moves
-			.flatMap((move) => move.getMoves(board, this))
-			.filter((pos) => Position.isValid(pos));
+	getPossibleMoves(board: IBoard): IMove[] {
+		return this._movePatterns.flatMap((pattern) =>
+			pattern.getMoves(board, this),
+		);
 	}
 
 	onMove(): void {}

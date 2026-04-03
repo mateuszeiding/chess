@@ -1,5 +1,5 @@
-import type { IPiece } from "../pieces/base/IPiece";
+import type { IMove } from "../moves/IMove";
 
 export interface ICondition {
-	check(to: IPiece | null): boolean;
+	check(move: IMove): boolean;
 }

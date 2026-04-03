@@ -1,4 +1,5 @@
 import type { IPosition } from "../structures/Position";
+import { EmptyPiece } from "./base/EmptyPiece";
 import type { IPiece } from "./base/IPiece";
 import { PIECE_VARIANT, type PieceColor, type PieceVariant } from "./enums";
 import { Bishop } from "./types/Bishop";
@@ -26,5 +27,7 @@ export function createPiece(
 			return new King(color, position);
 		case PIECE_VARIANT.Pawn:
 			return new Pawn(color, position);
+		default:
+			return new EmptyPiece(position);
 	}
 }

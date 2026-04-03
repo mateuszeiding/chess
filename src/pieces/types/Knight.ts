@@ -1,17 +1,19 @@
 import { EmptyPlaceCondition } from "../../conditions/EmptyPlaceCondition";
 import { EnemyCondition } from "../../conditions/EnemyCondition";
-import type { IMove } from "../../moves/IMove";
+import { SomeCondition } from "../../conditions/logical/SomeCondition";
+import type { IMovePattern } from "../../movePatterns/IMovePattern";
+import { ReliantPattern } from "../../movePatterns/ReliantPattern";
+import { SingleMovePattern } from "../../movePatterns/SingleMovePattern";
 import { KNIGHT_DIRECTIONS } from "../../moves/movePatterns";
-import { SingleMove } from "../../moves/SingleMove";
 import { Piece } from "../base/Piece";
 import { PIECE_VARIANT, type PieceVariant } from "../enums";
 
 export class Knight extends Piece {
 	variant: PieceVariant = PIECE_VARIANT.Knight;
-	protected _moves: IMove[] = [
-		new SingleMove(KNIGHT_DIRECTIONS, [
-			new EnemyCondition(this.color),
-			new EmptyPlaceCondition(),
-		]),
+	protected _movePatterns: IMovePattern[] = [
+		new ReliantPattern(
+			new SomeCondition([new EnemyCondition(), new EmptyPlaceCondition()]),
+			new SingleMovePattern(KNIGHT_DIRECTIONS),
+		),
 	];
 }

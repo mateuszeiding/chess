@@ -1,15 +1,12 @@
-import type { IPiece } from "../pieces/base/IPiece";
-import type { PieceColor } from "../pieces/enums";
+import type { IMove } from "../moves/IMove";
+import { PIECE_COLOR } from "../pieces/enums";
 import type { ICondition } from "./ICondition";
 
 export class EnemyCondition implements ICondition {
-	private readonly _pieceColor: PieceColor;
-
-	constructor(pieceColor: PieceColor) {
-		this._pieceColor = pieceColor;
-	}
-
-	check(to: IPiece | null): boolean {
-		return to !== null && to.color !== this._pieceColor;
+	check(move: IMove): boolean {
+		return (
+			move.target.color !== PIECE_COLOR.None &&
+			move.target.color !== move.piece.color
+		);
 	}
 }

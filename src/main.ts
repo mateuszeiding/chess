@@ -1,4 +1,4 @@
-import { GameManager } from "./core/GameManager";
+import { Board } from "./core/Board";
 import "./style.scss";
 
-GameManager.newGame();
+Board.newGame();
